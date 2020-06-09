@@ -1,13 +1,14 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles'
-import theme from "./theme"
+import theme from "./components/theme"
 import Header from './components/Header/Header';
 import HomePage from './components/HomePage/HomePage';
 import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from './components/RegisterPage/RegisterPage';
 import MemberRegisterPage from './components/RegisterPage/MemberRegisterPage/MemberRegisterPage'
+import TestPage from './components/TestPage/TestPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as serviceWorker from './serviceWorker';
 
@@ -18,6 +19,24 @@ import * as serviceWorker from './serviceWorker';
 export const LogInState = React.createContext(null);//宣告Context
 function Main() {
   let [loginState, setLoginState] = useState(false);
+  useEffect(() => {
+    if (document.cookie.indexOf('state') === 0) {
+      if(Boolean(document.cookie.split(';').find(row => row.startsWith('state')).split('=')[1])){
+        console.log('cookie 有效');
+        setLoginState(true)
+      } 
+    } else {
+      console.log('cookie 無效');
+      setLoginState(false)
+    }
+
+  }, [loginState])
+  setInterval(() => {
+    if (document.cookie.indexOf('state') !== 0) {
+      console.log('cookie 無效');
+      setLoginState(false)
+    }
+  }, 3000);
   return (
     <React.StrictMode>
       {/* 套用自訂義主題樣式 */}
@@ -27,10 +46,11 @@ function Main() {
             <Header />
             <Switch>
               <Route exact path="/" component={HomePage}></Route>
-              <Route exact path="/登入" component={LoginPage}></Route>
+              <Route exact path="/登入" component={loginState ? LoginPage : }></Route>
               <Route exact path="/註冊" component={RegisterPage}></Route>
               <Route exact path="/註冊/學生註冊" component={MemberRegisterPage}></Route>
-              <Route exact path="/" >{loginState ? <Redirect to="/" /> : < RegisterPage />} </Route>
+              <Route exact path="/系統" component={loginState ? TestPage : LoginPage}></Route>
+              {/* <Route exact path="/" >{loginState ? <Redirect to="/" /> : < RegisterPage />} </Route> */}
               <Route component={RegisterPage} />
             </Switch>
           </Router>

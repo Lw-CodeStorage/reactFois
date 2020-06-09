@@ -64,72 +64,41 @@ export default function MemberRegisterPage(props) {
         let obj = {}
 
         if (memberRegisterData.lastName === '') {
-
+            setOpen(true)
             obj.lastName = { errorState: true, helperText: '請輸入姓氏' }
         }
         if (memberRegisterData.firstName === '') {
-
+            setOpen(true)
             obj.firstName = { errorState: true, helperText: '請輸入名字' }
         }
         if (memberRegisterData.idNumber === '') {
-
+            setOpen(true)
             obj.idNumber = { errorState: true, helperText: '請輸入身分證號碼' }
         }
         if (memberRegisterData.phone === '') {
-
+            setOpen(true)
             obj.phone = { errorState: true, helperText: '請輸入名字' }
         }
         if (memberRegisterData.account === '') {
-
+            setOpen(true)
             obj.account = { errorState: true, helperText: '請輸入帳號' }
         }
         if (memberRegisterData.password === '') {
-
+            setOpen(true)
             obj.password = { errorState: true, helperText: '請輸入密碼' }
         }
         if (memberRegisterData.email === '') {
-
+            setOpen(true)
             obj.email = { errorState: true, helperText: '請輸入電子郵件' }
         }
         if (memberRegisterData.licenseKey === '') {
-
+            setOpen(true)
             obj.licenseKey = { errorState: true, helperText: '輸入金要開通' }
         }
-        if (Object.entries(obj).length === 0) {
-            fetch('https://demo.fois.online/appcal/Text.php', {
-                method: 'POST',
-                body: JSON.stringify(
-                    { account: 'member01' }
-                )
-            }).then((response) => {
-                return response.json()
-            }).then((myJson) => {
-                console.log(myJson)
-            }).catch(() => { console.log('sad') }
-            );
-
-        }
-        setErrorState({ ...error, ...obj })
-
-        // jQuery.ajax({
-        //     url: 'https://demo.fois.online/appcal/Text.php',
-        //     data: { "a": "123" },
-        //     type: "POST",
-        //     dataType: "json",
-        //     success: function (data) {
-
-        //         //彈窗:訊息
-        //         console.log(JSON.stringify(data));
+        setErrorState({ ...error, ...obj }
+        )
 
 
-
-        //     },
-        //     error: function () {
-
-        //         alert("失敗");
-
-        //     }
-        // });
         const uri = 'https://demo.fois.online/appcal/FetchTest.php';
         fetch(uri, {
             method: 'POST',
@@ -287,7 +256,7 @@ export default function MemberRegisterPage(props) {
                     autoHideDuration={3000}
                     onClose={handleClose}>
                     <Alert onClose={handleClose} variant="filled" severity="error">
-                        送出失敗！
+                        註冊失敗！
                      </Alert>
                 </Snackbar>
 

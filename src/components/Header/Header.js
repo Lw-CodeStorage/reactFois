@@ -1,4 +1,4 @@
-import React ,{useState,useContext}from 'react';
+import React ,{useState,useRef,useContext}from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,6 +11,7 @@ import logo from './ChampLogo.svg';
 import { LogInState } from '../../index';
 export default function Header() {
   let [loginState, setLoginState] = useContext(LogInState)
+  let [showMenu,setShowMenu] = useState('none')
   return (
     <>
       <div className="header">
@@ -41,7 +42,7 @@ export default function Header() {
           </div>
         </a><div className="popMenuPhone"><a>
         </a><div className="popMenuContainer"><a>
-        </a><a href="#" className="fas fa-times close" id="close_btn" />
+        </a><a  href="#" className="fas fa-times close" id="close_btn" />
             <div className="usImage">
               <div style={{ width: 100, height: 100, borderRadius: '50%', backgroundImage: 'url(/wp-content/plugins/FOIS2.0_plugins/img/noimage.svg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
               </div>
@@ -89,12 +90,10 @@ export default function Header() {
               </ul>
             </div>
             <div className="fbtn">
-              <Link to="/登入"> 登入</Link>
-              ｜
-              <Link to="/註冊"> 註冊</Link>
-              <div className="popMenu" style={loginState?{display:'block'}:{display:'none'}}>
+              { loginState ? <a onClick={()=>{setShowMenu('block')}}>一般會員</a> : <><Link to="/登入"> 登入</Link> | <Link to="/註冊"> 註冊</Link></> }
+              <div className="popMenu" style={{display:showMenu}}>
                 <div className="popMenuContainer">
-                  <a href="#" className="fas fa-times close" id="close_btn" />
+                  <button onClick={()=>{setShowMenu('none')}} className="fas fa-times close" id="close_btn" />
                   <div className="usImage">
                     <div style={{ width: 100, height: 100, borderRadius: '50%', backgroundImage: 'url(/wp-content/plugins/FOIS2.0_plugins/img/noimage.svg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
                     </div>
