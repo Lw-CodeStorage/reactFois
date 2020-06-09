@@ -1,0 +1,59 @@
+* {
+    margin: 0px;
+}
+
+body {
+     background: rgb(245, 245, 245) ;
+}
+
+
+.warp {
+    margin: auto;
+    height: 100vh;
+    max-width: 1000px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+}
+.MuiTypography-h5 {
+    color: #f58400;
+    padding-bottom: 20px;
+}
+.loginCard {
+    max-width: 504px;
+    width: 100%;
+    border: 2px solid rgb(233, 233, 233);
+    background: white;
+    border-radius: 8px;
+    padding:40px 20px 20px 20px;
+}
+
+
+.loginCard .accountInput {
+    margin: auto;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+
+.loginCard .loginButton {
+    width: 100%;
+    margin: 20px 0px 0px 0px;
+}
+
+.loginCard .adiv {
+    text-decoration: none;
+    margin: 10px auto;
+    max-width: 460px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.loginCard .adiv a {
+    color: #f58400;
+    text-decoration: none;
+}
+

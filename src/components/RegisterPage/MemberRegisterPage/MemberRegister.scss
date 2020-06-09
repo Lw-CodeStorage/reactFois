@@ -1,0 +1,24 @@
+body {
+    background: rgb(245, 245, 245) !important;
+    button:focus {
+        outline: none;
+    }
+}
+
+.CardContainer {
+    padding: 20px;
+    margin: 250px auto;
+    max-width: 550px;
+   
+    .memnerRegisterTitle{
+        font-size: 24px;
+        margin-bottom: 10px;
+        // color: #78909c;
+    }
+    .memnerRegisterNote{
+        font-weight: 400;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        color: orange;
+    }
+}
