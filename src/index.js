@@ -46,7 +46,7 @@ function Main() {
             <Header />
             <Switch>
               <Route exact path="/" component={HomePage}></Route>
-              <Route exact path="/登入" component={loginState ? LoginPage : }></Route>
+              <Route exact path="/登入" component={loginState ? LoginPage : TestPage}></Route>
               <Route exact path="/註冊" component={RegisterPage}></Route>
               <Route exact path="/註冊/學生註冊" component={MemberRegisterPage}></Route>
               <Route exact path="/系統" component={loginState ? TestPage : LoginPage}></Route>
