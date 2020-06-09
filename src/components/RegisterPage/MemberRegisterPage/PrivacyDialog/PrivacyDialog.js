@@ -8,6 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormControlLabel, Checkbox } from '@material-ui/core';
 export default function ScrollDialog() {
+    let [memberRegisterData, setMemberRegisterData] = useContext(MemberRegisterData);
 
     const [privacyCheck, setPrivacyCheck] = useState(false);
 
