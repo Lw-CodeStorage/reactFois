@@ -1,10 +1,6 @@
-body {
-    background: rgb(245, 245, 245) !important;
-    button:focus {
-        outline: none;
-    }
+:focus{
+    outline: none !important;
 }
-
 .CardContainer {
     padding: 20px;
     margin: 250px auto;

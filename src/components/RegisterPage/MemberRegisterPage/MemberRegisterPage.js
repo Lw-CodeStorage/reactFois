@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { BrowserRouter as Router, Switch, Route, Link, useHistory } from "react-router-dom";
 import TextfieldHidePass from './TextfieldHidePass/TextfieldHidePass';
 import DatePicker from './DatePicker/DatePicker'
 import ServiceDialog from './ServieDialog/ServiceDialog'
@@ -7,13 +8,12 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { Grid, Card, TextField, Typography } from '@material-ui/core';
-import './MemberRegister.min.css'
+import './MemberRegister.css'
 import jQuery from 'jquery'
 
 export const MemberRegisterData = React.createContext(null);//宣告Context
 
 export default function MemberRegisterPage(props) {
-
 
     let [memberRegisterData, setMemberRegisterData] = useState({
         lastName: '',
@@ -32,24 +32,30 @@ export default function MemberRegisterPage(props) {
 
     let [error, setErrorState] = useState({
         lastName: { errorState: false, helperText: '' },
-        firstName: { error: false, helperText: '' },
-        birthDay: { error: false, helperText: '' },
-        idNumber: { error: false, helperText: '' },
-        phone: { error: false, helperText: '' },
-        account: { error: false, helperText: '' },
-        password: { error: false, helperText: '' },
-        email: { error: false, helperText: '' },
-        licenseKey: { error: false, helperText: '' }
+        firstName: { errorState: false, helperText: '' },
+        birthDay: { errorState: false, helperText: '' },
+        idNumber: { errorState: false, helperText: '' },
+        phone: { errorState: false, helperText: '' },
+        account: { errorState: false, helperText: '' },
+        password: { errorState: false, helperText: '' },
+        email: { errorState: false, helperText: '' },
+        licenseKey: { errorState: false, helperText: '' }
     })
-    const [open, setOpen] = useState(false);
+    let [open, setOpen] = useState(false)
 
-    const handleClose = (event, reason) => {
+    let [respon ,setRespon] = useState('註冊失敗')
+
+    let [alertState ,setAlertState] = useState('error');
+    
+    let history = useHistory()
+
+
+    let handleClose = (event, reason) => {
 
         setOpen(false);
     };
 
-    const dateBind = props => event => {
-
+    let dateBind = props => event => {
         // 在物件裡的索引裡面用[]代表使用的是變數
         setMemberRegisterData({ ...memberRegisterData, [props]: event.target.value })
 
@@ -58,7 +64,7 @@ export default function MemberRegisterPage(props) {
 
     }
 
-    const registerHandle = (prevCount) => {
+    let registerHandle = (prevCount) => {
 
         //註冊時發現有未填的欄位給上error和helperText
         let obj = {}
@@ -93,29 +99,33 @@ export default function MemberRegisterPage(props) {
         }
         if (memberRegisterData.licenseKey === '') {
             setOpen(true)
-            obj.licenseKey = { errorState: true, helperText: '輸入金要開通' }
+            obj.licenseKey = { errorState: true, helperText: '輸入金鑰開通' }
         }
-        setErrorState({ ...error, ...obj }
-        )
+        setErrorState({ ...error, ...obj }) //如果有錯誤 將錯誤狀態加入錯誤的state中
+
+        if (Object.keys(obj).length == 0) {
+            fetch('https://demo.fois.online/Fois_Class/Main.php', {
+                method: 'POST',
+                body: JSON.stringify({'key':'memberRegistered','formData':memberRegisterData}),
+            })
+                .then(res => {
+                    return res.json();
+                }).then(result => {
+                    if (result['狀態'] === '註冊成功') {
+                        setAlertState('success')
+                        setRespon('註冊成功')
+                        setOpen(true)
+                        history.push('/登入')
+                    } else { 
+                         setAlertState('error')
+                        setRespon(result.errorCode)
+                        setOpen(true)
+                        console.log(result.errorCode)
+                    }
+                }).catch((error) => console.error('Error:', error))
+        }
 
 
-        const uri = 'https://demo.fois.online/appcal/FetchTest.php';
-        fetch(uri, {
-            method: 'POST',
-            body: encodeURI(JSON.stringify({
-                name: 'oxxo',
-                age: 18
-            })),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': ' application/json ; charset=utf-8'
-            }
-        })
-            .then(res => {
-                return res.json();   // 使用 json() 可以得到 json 物件
-            }).then(result => {
-                console.log(result); // 得到 {name: "oxxo", age: 18, text: "你的名字是 oxxo，年紀 18 歲～"}
-            }).catch((error) => console.log(error)); ;
     }
 
     return (
@@ -246,7 +256,7 @@ export default function MemberRegisterPage(props) {
                 </Grid>
 
                 <Button fullWidth
-                    disabled={(memberRegisterData.serviceCheck && memberRegisterData.privacyCheck) ? true : false}
+                    disabled={(memberRegisterData.serviceCheck && memberRegisterData.privacyCheck) ? false : true}
                     variant="contained"
                     color="primary"
                     onClick={registerHandle}>註冊</Button>
@@ -255,9 +265,9 @@ export default function MemberRegisterPage(props) {
                     open={open}
                     autoHideDuration={3000}
                     onClose={handleClose}>
-                    <Alert onClose={handleClose} variant="filled" severity="error">
-                        註冊失敗！
-                     </Alert>
+                    <Alert onClose={handleClose} variant="filled" severity={alertState}>
+                        {respon}
+                    </Alert>
                 </Snackbar>
 
             </Card>

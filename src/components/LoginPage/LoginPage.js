@@ -1,14 +1,13 @@
-import React, { useState, useContext } from 'react'
-import Warning from '../Warning/Warning'
+import React, { useState, useContext,useEffect ,useRef} from 'react'
 import { BrowserRouter as Router, Switch, Route, Link, useHistory } from "react-router-dom";
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 import { Typography } from '@material-ui/core';
 
-import './LoginPage.min.css'
+import './LoginPage.css'
 
 import $ from "jquery"
-import './ShowPwd.min.css'
+
 
 import { LogInState } from '../../';
 
@@ -59,46 +58,36 @@ const ShowPwd = (props) => {
 }
 
 const LoginPage = (props) => {
-    let [account, setAccount] = useState('')
-    let [password, setPassWord] = useState('')
+    let [account, setAccount] = useState('member01')
+    let [password, setPassWord] = useState('123456789')
     let [open, setOpen] = useState(false);
     let [loginState, setLoginState] = useContext(LogInState)
     let history = useHistory()
- 
+    let response =useRef('登入錯誤')
     const handleClose = (event, reason) => {
         setOpen(false);
     }
 
     function fetchData() {
-        document.cookie="state=true;max-age =30; path=/";
-       setLoginState(true)
-       history.push('/系統')
-        // loginState  = setLoginState(Boolean(document.cookie.split(';').find(row => row.startsWith('state')).split('=')[1]))
-        // console.log(loginState);
-        // console.log(loginState);
-        
-        
-        // let postData = new FormData()
-        // postData.append('userLogin', '')
-        // postData.append('account', account)
-        // postData.append('password', password)
-        // fetch('https://demo.fois.online/Fois_Class/Main.php', {
-        //     method: 'POST',
-        //     body: postData,
-        // })
-        //     .then(res => {
-        //         return res.json();
-        //     }).then(result => {
-        //         console.log(result);
-        //         if (result === '帳戶正確') {
-        //             history.push("/");
-        //             setLoginState(true)
-        //         } else {
-        //             sessionStorage.setItem('ㄔㄧㄟ', 'value');
-        //             setLoginState(false)
-        //             setOpen(true);
-        //         }
-        //     });
+
+        fetch('https://demo.fois.online/Fois_Class/Main.php', {
+            method: 'POST',
+            body: JSON.stringify({key:'userLogin','account':account,'password':password}),
+        })
+            .then(res => {
+                return res.json();
+            }).then(result => {
+                console.log(result);
+                if (result['狀態'] === '登入成功') {
+                    document.cookie=`state=${result['JWT']};max-age =300; path=/`;
+                    setLoginState(true)
+                    history.push('/系統')//Router跳轉並更改網址路徑
+                } else {         
+                    response.current =  result.errorCode //ref
+                    setLoginState(false)
+                    setOpen(true);
+                }
+            });
     }
 
     return (
@@ -107,11 +96,20 @@ const LoginPage = (props) => {
             <div className="loginCard">
                 <Typography variant="h5">輸入帳號密碼登入系統</Typography>
                 <p className="login-username">
-                    <input type="text" value={account} onChange={(e) => { setAccount(e.target.value) }} className="form-control accountInput" id="login_user_name" name="log" placeholder="請輸入您的學生會員帳號" />
+                    <input type="text" 
+                    value={account}
+                     onChange={(e) => { setAccount(e.target.value) }} 
+                     className="form-control accountInput" 
+                     id="login_user_name" 
+                     name="log" 
+                     placeholder="請輸入您的學生會員帳號" />
                 </p>
-                <ShowPwd password={password} setPassword={(e) => { setPassWord(e.target.value) }} />
-                <p className="login-submit">
+                <ShowPwd 
+                password={password} 
+                setPassword={(e) => { setPassWord(e.target.value) }}
+                 />
 
+                <p className="login-submit">
                     <button  onClick={fetchData}
                         className="btn btn-success loginButton " style={{ background: '#f58400', borderColor: '#f58400' }}>
                         <i className="fas fa-sign-in-alt" />登入</button>
@@ -121,7 +119,7 @@ const LoginPage = (props) => {
                         autoHideDuration={3000}
                         onClose={handleClose}>
                         <Alert onClose={handleClose} variant="filled" severity="error">
-                            登入失敗！
+                          {response.current} 
                          </Alert>
                     </Snackbar>
                 </p>

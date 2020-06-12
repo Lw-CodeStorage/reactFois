@@ -1,19 +1,30 @@
 
-import React, { Component, useState } from 'react';
 import { createMuiTheme } from '@material-ui/core/styles';
-import orange from '@material-ui/core/colors/purple';
-import green from '@material-ui/core/colors/green';
 
 const theme = createMuiTheme({
+    outline: 'none',
     palette: {
-        // type:'dark',
+        //type:'dark',
         primary: {
             main: '#009688',
-          }
-      
+           
+        },
+        secondary: {
+            main: '#80cbc4',
+           
+        },
+        cardBackground: {
+            main: '#ffffff',
+        },
+        bodyBackground:{
+            main: '#f5f5f5',
+        },
+
+        contrastThreshold: 3,  
+        tonalOffset: 0.2,
+        
+
     },
-    status: {
-        danger: 'orange',
-    },
+    
 });
 export default theme;

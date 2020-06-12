@@ -1,5 +1,5 @@
 import React from 'react';
-import './HomePage.min.css'
+import './HomePage.css'
 import BannerImage1 from'./FOIS_Web_home01-compressed.jpg'
 import BannerImage2 from'./FOIS_Web_home02-compressed.jpg'
 import BannerImage3 from'./FOIS_Web_home03-compressed.jpg'

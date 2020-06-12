@@ -1,0 +1,160 @@
+
+    .activityCardContainer {
+      width: 400px;
+      height: 600px;
+      margin: 10px;
+      border-radius: 0px;
+      border-bottom: 5px solid turquoise;
+      background: white;
+      box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+      .ribbonRelative {
+        width: 150px;
+        top: 20px;
+        right: -40px;
+        position: absolute;
+        z-index: 1;
+      }
+      .ribbon {
+        padding: 5px;
+        text-align: center;
+        background-image: linear-gradient(-20deg, #00cdac 0%, #8ddad5 100%);
+        transform: rotate(45deg);
+        z-index: 1;
+        color: white;
+      }
+      .imageScale {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+      }
+      .activityPageImage {
+        display: flex;
+        justify-content: center;
+        height: 300px;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        transition: all 0.5s ease;
+        background-image: url(https://picsum.photos/id/486/400/300);
+        z-index: 0;
+      }
+
+      .activityPageImage:hover,
+      .activityPageImage:focus {
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+      .activityPageImage::before {
+        content: "";
+        display: none;
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(52, 73, 94, 0.75);
+      }
+      .activityPageImage:hover::before {
+        display: block;
+      }
+      .imageTitle {
+        display: none;
+        color: white;
+        font-size: 30px;
+        top: 40%;
+        text-align: center;
+        position: absolute;
+        width: 300px;
+        height: 35px;
+        overflow: hidden;
+      }
+      .activityPageImage:hover .imageTitle {
+        display: block;
+      }
+      .imageImage {
+        width: 60px;
+        height: 60px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        left: 10px;
+        bottom: -80px;
+        transition: all 0.6s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 36px;
+        color: turquoise;
+        cursor: pointer;
+      }
+      .imageScale:hover .imageImage,
+      .imageScale:focus .imageImage {
+        display: inline-flex;
+        left: 10px;
+        bottom: 20px;
+      }
+      .activityTitle {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+
+        position: relative;
+        font-size: 22px;
+        padding: 20px 20px 10px 20px;
+        .title {
+          width: 234px;
+          height: 49px;
+          line-height: 24px;
+          overflow: hidden;
+        }
+        p {
+          margin: 0;
+        }
+        .activityQuota {
+          padding: 5px 10px 5px 10px;
+          border-bottom: 3px solid orange;
+          font-size: 16px;
+          color: lightslategrey;
+          letter-spacing: 0px;
+        }
+      }
+
+      .activityIntroduction {
+        padding: 10px 20px 5px 20px;
+        height: 120px;
+        width: 100%;
+        color: lightslategrey;
+        overflow-y: scroll;
+        p {
+          margin: 0;
+        }
+      }
+      .activityInfo {
+        position: relative;
+        padding: 30px 20px 0px 20px;
+        letter-spacing: 1px;
+        p {
+          color: lightslategrey;
+          font-size: 16px;
+          margin: 0px;
+        }
+      }
+      .rigisterNow {
+        padding: 5px 10px 5px 10px;
+        position: absolute;
+        top: 40px;
+        right: 20px;
+        border: 2px solid turquoise;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 900;
+        color: turquoise;
+      }
+      .rigisterNow:hover {
+        background: turquoise;
+        color: white;
+      }
+    }
+  

@@ -1,0 +1,7 @@
+.activityPageContainer {
+  display: flex;
+  margin: auto;
+  max-width: 1280px;
+  justify-content: center;
+  flex-wrap: wrap;
+}

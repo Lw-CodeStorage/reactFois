@@ -1,29 +1,12 @@
-* {
-  margin: 0px;
-}
-
-body {
-  background: whitesmoke;
-}
-
 .warp {
   margin: auto;
   height: 100vh;
   max-width: 1000px;
   padding: 20px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .MuiTypography-h5 {
@@ -55,15 +38,11 @@ body {
   text-decoration: none;
   margin: 10px auto;
   max-width: 460px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  justify-content: space-around;
 }
 
 .loginCard .adiv a {
   color: #f58400;
   text-decoration: none;
 }
-/*# sourceMappingURL=LoginPage.css.map */

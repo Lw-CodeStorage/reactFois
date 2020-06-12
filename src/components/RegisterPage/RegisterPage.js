@@ -5,7 +5,7 @@ import { useRouteMatch, Link } from "react-router-dom";
 //self
 import Banner from '../Banner/Banner'
 import BannerImage from '../img/FOIS_Web-登入.jpg';
-import './RegisterPage.min.css'
+import './RegisterPage.css'
 
 
 export default function RegisterPage  (props) {
