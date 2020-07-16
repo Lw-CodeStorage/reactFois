@@ -10,15 +10,8 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  margin-top: 60px;
   width: 100%;
   letter-spacing: 3px;
-}
-
-@media (max-width: 1025px) {
-  .banner {
-    margin-top: 44px;
-  }
 }
 
 /******派案競標******/
@@ -47,7 +40,8 @@
   text-shadow: 0.1em 0.1em 0.2em black;
   z-index: 2;
 }
+
+/*# sourceMappingURL=banner.css.map */
 body {
   background: whitesmoke;
 }
-/*# sourceMappingURL=Banner.css.map */

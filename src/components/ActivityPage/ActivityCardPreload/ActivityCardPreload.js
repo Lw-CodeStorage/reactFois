@@ -25,17 +25,17 @@ export default function ActivityCardPreload() {
                     </div>
 
                     <div className="activityPreloadQuota">
-                        <Skeleton width={100} height={10} animation="wave" />
                         <Skeleton width={120} height={10} animation="wave" />
+                        <Skeleton width={140} height={10} animation="wave" />
                     </div>
                 </div>
 
                 <div className="activityPreloadIntroduction">
-                    <Skeleton width={295} height={20} animation="wave" />
-                    <Skeleton width={295} height={20} animation="wave" />
-                    <Skeleton width={295} height={20} animation="wave" />
-                    <Skeleton width={295} height={20} animation="wave" />
-                    <Skeleton width={295} height={20} animation="wave" />
+                    <Skeleton max-width='100%' height={20} animation="wave" />
+                    <Skeleton max-width='100%' height={20} animation="wave" />
+                    <Skeleton max-width='100%' height={20} animation="wave" />
+                    <Skeleton max-width='100%' height={20} animation="wave" />
+                    <Skeleton max-width='100%' height={20} animation="wave" />
                 </div>
                 <div className="activityPreloadInfo">
                     <div>

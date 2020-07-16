@@ -1,0 +1,21 @@
+.selfUserImageContainer {
+    padding: 20px;
+
+    .selfUserImage {
+        position: relative;
+        width: 130px !important;
+        height: 130px !important;
+        margin: auto;
+        overflow: hidden;
+    }
+    .iconButtomContainer {
+       
+        position: absolute;
+        top: 130px;
+        right: 10px;
+        .photoIcon {
+           
+            padding: 5px;
+        }
+    }
+}

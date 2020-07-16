@@ -1,30 +1,44 @@
 
 import { createMuiTheme } from '@material-ui/core/styles';
+import { dark } from '@material-ui/core/styles/createPalette';
 
 const theme = createMuiTheme({
     outline: 'none',
+    //textDecoration: 'none',
     palette: {
-        //type:'dark',
+         //type:'dark',
         primary: {
             main: '#009688',
-           
+            light: '#52c7b8',
+            dark: '#00675b',
+            contrastText: '#fafafa'
         },
         secondary: {
-            main: '#80cbc4',
-           
+            main: '#4db6ac',
+            light: '#82e9de',
+            dark: '#00867d',
+            contrastText: '#ffffff'
         },
         cardBackground: {
             main: '#ffffff',
         },
-        bodyBackground:{
+        bodyBackground: {
             main: '#f5f5f5',
         },
 
-        contrastThreshold: 3,  
+        contrastThreshold: 3,
         tonalOffset: 0.2,
-        
-
     },
-    
+    overrides: {
+        MuiTypography: {
+            h5: {
+                color: '#000000'
+            },
+            subtitle1: {
+                color: '#5f6368'
+            }
+        }
+    }
+
 });
 export default theme;

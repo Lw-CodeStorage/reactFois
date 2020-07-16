@@ -8,20 +8,34 @@ import './ActivityPage.css'
 
 
 export default function () {
-    let [loadState, setLoadState] = useState(false);
+    //卡片資料狀態，有資料就setState為true下去判斷
+    let [loadState, setLoadState] = useState(false)
+    let [response, setResponse] = useState([{ 'a': '1' }])
+
     useEffect(() => {
-        setTimeout(() => {
-            console.log('發現卡片')
-            setLoadState(true)
-        }, 5000);
-        // fetch('https://demo.fois.online/Fois_Class/Main.php',{
-        //     method:'POST',
-        //     body: JSON.stringify({key:'userSearchActivityData'})
-        // })
+        fetch('https://demo.fois.online/Fois_Class/Main.php', {
+            method: 'POST',
+            body: JSON.stringify({ 'key': 'userSearchActivityData' })
+        }).then(res => {
+            return res.json()
+        }).then(
+            result => {
+                setTimeout(() => {
+                    (result.length > 0) ? setLoadState(true) : setLoadState(false)
+                    setResponse(result)
+                }, 1000);
+            }).catch((error) => console.error('Error:', error))
     }, [loadState])
+    //setLoadState會在DOM render完後執行，這裡設定相依會檢察值是不是有變，有變才會去做重新渲染，不然setLoadState 一直set true 還是會重新渲染
+
     if (loadState) {
-        console.log('該更換卡片了');
-        return (<ActivityCard/>)
+        console.log(response);
+        return (<Box className='activityPageContainer'>
+            {response.map((data) => { return <ActivityCard data={data} /> })}
+            {response.map((data) => { return <ActivityCard data={data} /> })}
+             {response.map((data) => { return <ActivityCard data={data} /> })}
+        </Box>)
+
     } else {
         return (
             <>

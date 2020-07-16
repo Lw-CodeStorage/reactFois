@@ -10,8 +10,6 @@ body {
 
 @media (min-width: 1200px) {
   .banner {
-    margin-top: 60px;
-    /*fixed header上浮 元件高度消失 banner會被蓋到必須推header高度*/
     position: relative;
     width: 100%;
     overflow: hidden;
@@ -225,8 +223,6 @@ body {
     margin: 0px;
   }
   .banner {
-    margin-top: 44px;
-    /*fixed header上浮 元件高度消失 banner會被蓋到必須推header高度*/
     position: relative;
     width: 100%;
     overflow: hidden;
@@ -351,9 +347,7 @@ body {
     display: flex;
     -ms-flex-pack: distribute;
     justify-content: space-around;
-    -webkit-box-align: baseline;
-        -ms-flex-align: baseline;
-            align-items: baseline;
+    align-items: baseline;
     font-size: 0.9rem;
     margin-bottom: 5px;
   }
@@ -401,4 +395,5 @@ body {
   }
   /*popover*/
 }
-/*# sourceMappingURL=HomePage.css.map */
+
+/*# sourceMappingURL=index.css.map */

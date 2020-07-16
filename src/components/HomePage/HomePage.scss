@@ -12,8 +12,7 @@ body {
 @media (min-width: 1200px) {
   
     .banner {
-        margin-top: 60px;
-        /*fixed header上浮 元件高度消失 banner會被蓋到必須推header高度*/
+      
         position: relative;
         width: 100%;
         overflow: hidden;
@@ -230,8 +229,7 @@ body {
     }
   
     .banner {
-        margin-top: 44px;
-        /*fixed header上浮 元件高度消失 banner會被蓋到必須推header高度*/
+       
         position: relative;
         width: 100%;
         overflow: hidden;

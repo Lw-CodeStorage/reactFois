@@ -27,6 +27,7 @@ import { School, AttachMoney, Info } from "@material-ui/icons";
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+       
     },
     menuContainer: {
         maxWidth: '1280px',
@@ -37,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     title: {
-        flexGrow: 1
+        flexGrow: 1,
+        cursor: 'pointer',
     },
     item1: {
 
@@ -49,6 +51,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '40px',
         width: 250
     },
+    
 }));
 
 export default function ButtonAppBar() {
@@ -80,9 +83,9 @@ export default function ButtonAppBar() {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static"  >
+            <AppBar  position="static"  >
                 <Toolbar className={classes.menuContainer}>
-                    <Hidden lgUp={true}>
+                    {/* <Hidden lgUp={true}>
                         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => { setShowMenu(true) }}>
                             <MenuIcon />
                         </IconButton>
@@ -114,18 +117,18 @@ export default function ButtonAppBar() {
                                 </ListItem>
                             </List>
                         </Drawer>
-                    </Hidden>
+                    </Hidden> */}
 
                     <Typography variant="h6" className={classes.title} onClick={() => { history.push("/") }}>
                         <span> FOIS 學職平台 <small>v1.2</small></span>
                     </Typography>
 
                     <Hidden smDown={true}>
-                        <Typography className={classes.item1}>
+                        {/* <Typography className={classes.item1}>
                             <Button color="inherit" onClick={()=>{history.push('/學職活動')}}>學職活動</Button>
                             <Button color="inherit" onClick={loginHandle}>派案競標</Button>
                             <Button color="inherit" onClick={loginHandle}>關於我們</Button>
-                        </Typography>
+                        </Typography> */}
 
                         <Typography className={classes.item2}>
                             {loginState ? systemButtom : (visitorButton)}

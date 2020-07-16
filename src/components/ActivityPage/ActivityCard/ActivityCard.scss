@@ -37,64 +37,11 @@
         background-size: cover;
         background-repeat: no-repeat;
         transition: all 0.5s ease;
-        background-image: url(https://picsum.photos/id/486/400/300);
+       // background-image: url(https://picsum.photos/id/486/400/300);
         z-index: 0;
       }
 
-      .activityPageImage:hover,
-      .activityPageImage:focus {
-        transform: scale(1.2);
-        cursor: pointer;
-      }
-      .activityPageImage::before {
-        content: "";
-        display: none;
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: rgba(52, 73, 94, 0.75);
-      }
-      .activityPageImage:hover::before {
-        display: block;
-      }
-      .imageTitle {
-        display: none;
-        color: white;
-        font-size: 30px;
-        top: 40%;
-        text-align: center;
-        position: absolute;
-        width: 300px;
-        height: 35px;
-        overflow: hidden;
-      }
-      .activityPageImage:hover .imageTitle {
-        display: block;
-      }
-      .imageImage {
-        width: 60px;
-        height: 60px;
-        background: white;
-        border-radius: 50%;
-        position: absolute;
-        left: 10px;
-        bottom: -80px;
-        transition: all 0.6s ease;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 36px;
-        color: turquoise;
-        cursor: pointer;
-      }
-      .imageScale:hover .imageImage,
-      .imageScale:focus .imageImage {
-        display: inline-flex;
-        left: 10px;
-        bottom: 20px;
-      }
+  
       .activityTitle {
         display: flex;
         justify-content: space-between;
@@ -155,6 +102,7 @@
       .rigisterNow:hover {
         background: turquoise;
         color: white;
+        cursor: pointer;
       }
     }
   

@@ -43,10 +43,10 @@ export default function MemberRegisterPage(props) {
     })
     let [open, setOpen] = useState(false)
 
-    let [respon ,setRespon] = useState('註冊失敗')
+    let [respon, setRespon] = useState('註冊失敗')
 
-    let [alertState ,setAlertState] = useState('error');
-    
+    let [alertState, setAlertState] = useState('error');
+
     let history = useHistory()
 
 
@@ -106,23 +106,22 @@ export default function MemberRegisterPage(props) {
         if (Object.keys(obj).length == 0) {
             fetch('https://demo.fois.online/Fois_Class/Main.php', {
                 method: 'POST',
-                body: JSON.stringify({'key':'memberRegistered','formData':memberRegisterData}),
-            })
-                .then(res => {
-                    return res.json();
-                }).then(result => {
-                    if (result['狀態'] === '註冊成功') {
-                        setAlertState('success')
-                        setRespon('註冊成功')
-                        setOpen(true)
-                        history.push('/登入')
-                    } else { 
-                         setAlertState('error')
-                        setRespon(result.errorCode)
-                        setOpen(true)
-                        console.log(result.errorCode)
-                    }
-                }).catch((error) => console.error('Error:', error))
+                body: JSON.stringify({ 'key': 'memberRegistered', 'formData': memberRegisterData }),
+            }).then(res => {
+                return res.json();
+            }).then(result => {
+                if (result['狀態'] === '註冊成功') {
+                    setAlertState('success')
+                    setRespon('註冊成功')
+                    setOpen(true)
+                    history.push('/登入')
+                } else {
+                    setAlertState('error')
+                    setRespon(result.errorCode)
+                    setOpen(true)
+                    console.log(result.errorCode)
+                }
+            }).catch((error) => console.error('Error:', error))
         }
 
 
