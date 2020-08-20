@@ -6,7 +6,7 @@ const theme = createMuiTheme({
     outline: 'none',
     //textDecoration: 'none',
     palette: {
-         //type:'dark',
+        //type:'dark',
         primary: {
             main: '#009688',
             light: '#52c7b8',
@@ -19,6 +19,9 @@ const theme = createMuiTheme({
             dark: '#00867d',
             contrastText: '#ffffff'
         },
+        error: {
+            main: '#f50057',
+        },
         cardBackground: {
             main: '#ffffff',
         },
@@ -29,8 +32,12 @@ const theme = createMuiTheme({
         contrastThreshold: 3,
         tonalOffset: 0.2,
     },
+    typography: {
+        fontFamily: `Noto Sans TC, sans- serif !important`
+    },
     overrides: {
         MuiTypography: {
+
             h5: {
                 color: '#000000'
             },

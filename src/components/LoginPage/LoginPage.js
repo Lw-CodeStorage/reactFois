@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Link, useHistory } from "react-
 import Snackbar from '@material-ui/core/Snackbar';
 import Alert from '@material-ui/lab/Alert';
 
-import { LogInState } from '../../'; //context
+import { LogInState } from '../../index.js'; //context
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,8 +18,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import loginBackGround from './loginPageBackground-press.jpg'
+import MemberRegisterPage from '../RegisterPage/MemberRegisterPage/MemberRegisterPage.js'
 
-
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -59,10 +60,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPage() {
   const classes = useStyles();
-  let [account, setAccount] = useState('member02')
-  let [password, setPassWord] = useState('123456789')
+  let [account, setAccount] = useState('st831209@gmail.com')
+  let [password, setPassWord] = useState('123')
   let [open, setOpen] = useState(false);
   let [loginState, setLoginState] = useContext(LogInState)
+  let [registerState, setRegisterState] = useState(false)
+  let [forgatState, setForgatState] = useState(false)
+
+  let forgotPassEmail = React.useRef(null)
+  let [email, setEmail] = React.useState(null)
+  let [alertState, setAlertState] = useState({
+    text: '上傳檔案過大',
+    severity: 'error',
+    open: false
+  });
+
   let history = useHistory()
   let response = useRef('登入錯誤')
   const handleClose = (event, reason) => {
@@ -71,28 +83,69 @@ export default function LoginPage() {
   function fetchData() {
     fetch('https://demo.fois.online/Fois_Class/Main.php', {
       method: 'POST',
-      body: JSON.stringify({ key: 'userLogin', 'account': account, 'password': password }),
+      body: JSON.stringify({ key: 'userLogin', 'Email': account, 'Password': password }),
     })
       .then(res => {
         return res.json();
       }).then(result => {
         // console.log(result);
         if (result['狀態'] === '登入成功') {
-          document.cookie = `state=${result['JWT']};max-age =3000; path=/`;
+          document.cookie = `state=${result['JWT']};max-age =3600; path=/`;
           history.push('/系統/編輯履歷/個資')
           setLoginState(true) //LoginState為全域變數，因此從全域變數的根開始重新渲染s
         } else {
-          response.current = result.errorCode //ref
-          setLoginState(false)
-          setOpen(true);
+          // response.current = result.errorCode //ref
+          // setLoginState(false)
+          // setOpen(true);
+          setAlertState({ severity: 'error', text: result.errorCode, open: true })
         }
       });
   }
+  //忘記密碼的Email格式判定用 送出不用這筆資料
+  let handleChange = (event) => {
+    setEmail(event.target.value) 
+    //console.log(forgotPassEmail.current);
+  }
+  //Email格式判斷 
+  let handleSubmit = (event) => {
+    //if 格式正確 email是API偵測需要設定，上傳還是自己抓值
+    if (forgotPassEmail.current.state.isValid && email) {
+      console.log(forgotPassEmail.current.props.value);
+
+      let cookies = document.cookie.split(';')
+      let state = ''
+      for (let i = 0; i < cookies.length; i++) {
+        if (cookies[i].indexOf('state') >= 0) {
+          state = cookies[i].split('=')[1]
+        }
+      }
+      fetch('https://demo.fois.online/Fois_Class/Main.php', {
+        method: 'POST',
+        body: JSON.stringify({
+          'key': 'userForgetPassword',
+          'Email': forgotPassEmail.current.props.value
+        }),
+      }).then(res => {
+        return res.json();
+      }).then(result => {
+        if (result.狀態 == '送出成功') {
+          setAlertState({ severity: 'success', text: result.狀態, open: true })
+        } else {
+          setAlertState({ severity: 'error', text: result.errorCode, open: true })
+        }
+
+      }).catch((error) => console.error('Error:', error))
+    } else {
+      setAlertState({ severity: 'error', text: '請輸入Email', open: true })
+    }
+  }
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
       <Grid item xs={false} sm={4} md={7} className={classes.image} />
       <Grid className={classes.paperContainer} item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -100,204 +153,111 @@ export default function LoginPage() {
           <Typography component="h1" variant="h5">
             FOIS <small>v1.2</small>
           </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="使用者帳號"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onChange={(e) => { setAccount(e.target.value) }}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="使用者密碼"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={(e) => { setPassWord(e.target.value) }}
-            />
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={fetchData}
-            >
-              登 入
+          {registerState ? <MemberRegisterPage setRegisterState={setRegisterState} /> :
+            forgatState ?
+              <Paper style={{ maxWidth: 400, marginTop: 20 }}>
+                <Box p={2} pl={4} pr={4} >
+                  <Grid container spacing={2}>
+
+                    <Grid item xs={12}>  <Typography variant='subtitle1'>您的個人會員帳號密碼將進行重設</Typography></Grid>
+                    <Grid item xs={12} style={{ marginBottom: 5 }}>
+                      <ValidatorForm>
+                        <TextValidator
+                          fullWidth
+                          label="Email"
+                          onChange={handleChange}
+                          name="email"
+                          value={email}
+                          validators={['required', 'isEmail']}
+                          errorMessages={['this field is required', 'email 格式不對']}
+                          ref={forgotPassEmail}
+                        />
+                      </ValidatorForm>
+
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Button size='small' color="secondary" variant="contained" fullWidth onClick={handleSubmit}>重設 </Button>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Button size='small' color='primary' fullWidth onClick={() => { setForgatState(false) }}>返回 </Button>
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Paper>
+              :
+              <form className={classes.form} noValidate>
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="使用者帳號"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                  onChange={(e) => { setAccount(e.target.value) }}
+                />
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="使用者密碼"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  onChange={(e) => { setPassWord(e.target.value) }}
+                />
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={fetchData}
+                >
+                  登 入
             </Button>
-            <Grid container>
-              <Grid item xs>
-                忘記密碼
-              </Grid>
-              <Grid item>
-                <Link to='/註冊'>
-                  還沒有帳號嗎？ 快註冊一個吧！
-                </Link>
-              </Grid>
-            </Grid>
-            <Snackbar
-              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-              open={open}
-              autoHideDuration={3000}
-              onClose={handleClose}>
-              <Alert onClose={handleClose} variant="filled" severity="error">
-                {response.current}
-              </Alert>
-            </Snackbar>
-          </form>
+                <Grid container>
+                  <Grid item xs>
+                    <Button onClick={() => { setForgatState(true) }}>忘記密碼？ </Button>
+                  </Grid>
+                  <Grid item>
+                    <Button onClick={() => { setRegisterState(true) }}>
+                      還沒有帳號嗎？ 快註冊一個吧！
+                </Button>
+                    {/* <Link to='/註冊'>
+                    還沒有帳號嗎？ 快註冊一個吧！
+                </Link> */}
+                  </Grid>
+                </Grid>
+
+              </form>
+
+          }
         </div>
+
       </Grid>
+      {/* <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        open={alertState.open}
+        autoHideDuration={3000}
+        onClose={handleClose}>
+        <Alert onClose={handleClose} variant="filled" severity="error">
+          {response.current}
+        </Alert>
+      </Snackbar> */}
+      <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={alertState.open}
+                autoHideDuration={3000}
+                onClose={() => { setAlertState({ ...alertState, open: false }) }}
+            >
+                <Alert variant="filled" severity={alertState.severity}>
+                    {alertState.text}
+                </Alert>
+            </Snackbar>
     </Grid>
   );
 }
-// import React, { useState, useContext,useEffect ,useRef} from 'react'
-// import { BrowserRouter as Router, Switch, Route, Link, useHistory } from "react-router-dom";
-// import Snackbar from '@material-ui/core/Snackbar';
-// import Alert from '@material-ui/lab/Alert';
-// import { Typography } from '@material-ui/core';
-
-// import './LoginPage.css'
-
-// import $ from "jquery"
-
-
-// import { LogInState } from '../../';
-
-// let showPassWordHandler = () => {
-
-//     $(document).ready(function () {
-
-//         $('[for="login_user_name"]').css("display", "none");
-//         $('[for="login_pass_word"]').css("display", "none");
-//         $("#login_user_name").attr('placeholder', '帳號');
-//         $("#login_pass_word").attr('placeholder', '密碼');
-//     });
-//     $(".bt-showpwd").on("click", function (e) {
-
-//         e.preventDefault();
-//         var $this = $(this);
-//         var $password = $this.closest(".password-wrap");
-//         var $input = $password.find('input');
-//         var $inputWrap = $password.find('.password-input');
-//         var newinput = '', inputHTML = $inputWrap.html(), inputValue = $input.val();
-//         if ($input.attr('type') === 'password') {
-//             newinput = inputHTML.replace(/type\s*=\s*('|")?password('|")?/ig, 'type="text"');
-//             $inputWrap.html(newinput).find('input')[0].value = inputValue.toString();
-//             $this.removeClass("on").addClass("off");
-
-//         }
-//         else {
-//             newinput = inputHTML.replace(/type\s*=\s*('|")?text('|")?/ig, 'type="password"');
-//             $inputWrap.html(newinput).find('input')[0].value = inputValue.toString();
-//             $this.removeClass("off").addClass("on");
-
-//         }
-//     });
-// }
-// const ShowPwd = (props) => {
-//     let { password, setPassword } = props
-
-//     return (
-//         <div className="password-wrap">
-//             <div className="password-input">
-//                 <p className="login-password">
-//                     <input type="password" value={password} onChange={setPassword} className="form-control passwordInput" id="login_pass_word" name="pwd" placeholder="請輸入您的學生會員密碼" />
-//                 </p>
-//             </div>
-//             <i onClick={showPassWordHandler} className="bt-showpwd on" />
-//         </div>
-//     )
-// }
-
-// const LoginPage = (props) => {
-//     let [account, setAccount] = useState('member01')
-//     let [password, setPassWord] = useState('123456789')
-//     let [open, setOpen] = useState(false);
-//     let [loginState, setLoginState] = useContext(LogInState)
-//     let history = useHistory()
-//     let response =useRef('登入錯誤')
-//     const handleClose = (event, reason) => {
-//         setOpen(false);
-//     }
-
-//     function fetchData() {
-
-//         fetch('https://demo.fois.online/Fois_Class/Main.php', {
-//             method: 'POST',
-//             body: JSON.stringify({key:'userLogin','account':account,'password':password}),
-//         })
-//             .then(res => {
-//                 return res.json();
-//             }).then(result => {
-//                 console.log(result);
-//                 if (result['狀態'] === '登入成功') {
-//                     document.cookie=`state=${result['JWT']};max-age =300; path=/`;
-//                     setLoginState(true)
-//                     history.push('/系統')//Router跳轉並更改網址路徑
-//                 } else {         
-//                     response.current =  result.errorCode //ref
-//                     setLoginState(false)
-//                     setOpen(true);
-//                 }
-//             });
-//     }
-
-//     return (
-//         <div className="warp" >
-
-//             <div className="loginCard">
-//                 <Typography variant="h5">輸入帳號密碼登入系統</Typography>
-//                 <p className="login-username">
-//                     <input type="text" 
-//                     value={account}
-//                      onChange={(e) => { setAccount(e.target.value) }} 
-//                      className="form-control accountInput" 
-//                      id="login_user_name" 
-//                      name="log" 
-//                      placeholder="請輸入您的學生會員帳號" />
-//                 </p>
-//                 <ShowPwd 
-//                 password={password} 
-//                 setPassword={(e) => { setPassWord(e.target.value) }}
-//                  />
-
-//                 <p className="login-submit">
-//                     <button  onClick={fetchData}
-//                         className="btn btn-success loginButton " style={{ background: '#f58400', borderColor: '#f58400' }}>
-//                         <i className="fas fa-sign-in-alt" />登入</button>
-//                     <Snackbar
-//                         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-//                         open={open}
-//                         autoHideDuration={3000}
-//                         onClose={handleClose}>
-//                         <Alert onClose={handleClose} variant="filled" severity="error">
-//                           {response.current} 
-//                          </Alert>
-//                     </Snackbar>
-//                 </p>
-
-//                 <div className="adiv">
-//                     <a >
-//                         <i className="fas fa-user-plus" />註冊帳號</a>
-//                     <a>
-//                         <i className="fas fa-question" />忘記密碼</a>
-//                 </div>
-
-//             </div>
-//         </div>)
-// }
-
-
-
-
-
-// export default LoginPage

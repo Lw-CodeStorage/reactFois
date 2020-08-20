@@ -25,13 +25,13 @@ const useStyles = makeStyles((theme) => ({
 export default function TextfieldHidePass(props) {
     let [memberRegisterData, setMemberRegisterData] = useContext(MemberRegisterData);
     const [values,setValues] = useState({
-        password:'',
+        Password:'',
         showPassword:true
     })
     useEffect(() => {
-        setMemberRegisterData({...memberRegisterData,password : values.password})
+        setMemberRegisterData({...memberRegisterData,Password : values.Password})
        
-    }, [values.password]);
+    }, [values.Password]);
    
 
     const handleChange = prop => event => {
@@ -49,8 +49,8 @@ export default function TextfieldHidePass(props) {
         <OutlinedInput
             id="outlined-adornment-password"
             type={values.showPassword ? 'text' : 'password'}
-            value={values.password}
-            onChange={handleChange('password')}
+            value={values.Password}
+            onChange={handleChange('Password')}
             endAdornment={
                 <InputAdornment position="end">
                     <IconButton

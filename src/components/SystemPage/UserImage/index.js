@@ -3,11 +3,13 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import Avatar from '@material-ui/core/Avatar'
 import IconButton from '@material-ui/core/IconButton';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import './UserImage.css'
-
+import { PayState } from '../../../index.js' //userContext父層引入
+import noImage from '../../img/noimage.svg'
 export default function UserImage() {
-    let [downLoadImage, setDownLoadImage] = useState('image')
-
+    let [downLoadImage, setDownLoadImage] = useState(null)
+    let [payState,setPayState] = React.useContext(PayState) //付費狀態 由最上層index-route傳下來
     useEffect(() => {
         let cookies = document.cookie.split(';')
         let state = ''
@@ -66,17 +68,15 @@ export default function UserImage() {
     return (
         <div className='selfUserImageContainer'>
 
-            <Avatar className='selfUserImage' src={`https://demo.fois.online/Fois_Class/${downLoadImage}`} >
-
-            </Avatar>
-
+            {downLoadImage?<Avatar className='selfUserImage' src={`https://demo.fois.online/Fois_Class/${downLoadImage}`} ></Avatar>:<Avatar className='selfUserImage' src={noImage} ></Avatar>}
             <div className='iconButtomContainer'>
                 <IconButton
+                    disabled = {payState?false:true}
                     className='photoIcon'
                     component="label"
                     aria-label="upload picture"
                     disableRipple='true'>
-                    <PhotoCamera />
+                    {payState?<PhotoCamera/>:<VideocamOffIcon />}
                     <input
                         onChange={imageUpload}
                         type="file"

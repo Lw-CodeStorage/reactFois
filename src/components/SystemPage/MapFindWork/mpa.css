@@ -1,0 +1,13 @@
+.test {
+  display: block;
+  width: 120px !important;
+  height: inherit !important;
+  text-align: center;
+  border-radius: 10px;
+  background: #4db6ac;
+  color: whitesmoke;
+  padding: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

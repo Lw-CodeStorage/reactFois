@@ -1,0 +1,19 @@
+.test{
+        display: block;
+        width: 120px !important;
+        height: inherit !important;
+        text-align: center;
+        border-radius:10px;
+        background: rgba(#4db6ac, 1);
+        color: whitesmoke;
+       
+        padding: 5px;
+
+        overflow : hidden;
+        text-overflow : ellipsis;
+        white-space : nowrap;
+}
+// .test:hover{
+//     transition:  1s;
+//     height: 100px !important;
+// }
